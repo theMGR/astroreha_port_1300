@@ -56,30 +56,63 @@ astroreha.compatibility.areCompatible(
 
 ### Verified with [Prokerela.com](https://www.prokerala.com)
 
-##astroreha_port_1300
+## AstroReha API Server (`port 1300`)
 
-1. Start Commands
-   Start in the background (Detached mode - Recommended):
+### Swagger Documentation
+The interactive API documentation is available at:
+* **Local:** [http://localhost:1300/api-docs](http://localhost:1300/api-docs)
+* **Ubuntu Server / Remote:** `http://<your-server-ip>:1300/api-docs`
 
-docker-compose up -d
-Start and force a rebuild (Use this if you changed package.json or source code):
+---
 
-docker-compose up -d --build
-Start in the foreground (To see live logs in your terminal):
+### Scripts Helper
+We provide pre-configured scripts to easily manage the service:
+* **Docker Clean Start:** `./docker_start.sh` (Linux/Ubuntu) or `docker_start.bat` (Windows)
+* **Docker Stop:** `./docker_stop.sh` (Linux/Ubuntu) or `docker_stop.bat` (Windows)
+* **Setup Project:** `./setup.sh` (Linux/Ubuntu) or `setup.bat` (Windows)
+* **Local Native Start:** `./start_server.sh` (Linux/Ubuntu) or `start_server.bat` (Windows)
+* **Local Native Stop:** `./stop_server.sh` (Linux/Ubuntu) or `stop_server.bat` (Windows)
 
-docker-compose up 2. Stop Commands
-Stop and remove containers (Recommended - cleans up resources):
+Make scripts executable on Linux/Ubuntu:
+```shell
+chmod +x setup.sh docker_start.sh docker_stop.sh start_server.sh stop_server.sh
+```
 
-docker-compose down
-Stop containers without removing them (Keeps container states):
+---
 
-docker-compose stop 3. Restart Commands
-Quick Restart (Restarts the container without rebuilding):
+### Docker Compose Commands Reference
 
-docker-compose restart
-Rebuild and Restart (Ensures everything is fully fresh):
+#### 1. Start Commands
+* **Start in background (Detached mode - Recommended):**
+  ```shell
+  docker-compose up -d
+  ```
+* **Start and force a rebuild:**
+  ```shell
+  docker-compose up -d --build
+  ```
+* **Start in foreground (View logs live):**
+  ```shell
+  docker-compose up
+  ```
 
-docker-compose down && docker-compose up -d --build
+#### 2. Stop Commands
+* **Stop and remove containers (Recommended):**
+  ```shell
+  docker-compose down
+  ```
+* **Stop containers without removing them:**
+  ```shell
+  docker-compose stop
+  ```
 
-chmod +x docker_start.sh
-./docker_start.sh
+#### 3. Restart Commands
+* **Quick Restart:**
+  ```shell
+  docker-compose restart
+  ```
+* **Clean Rebuild and Restart:**
+  ```shell
+  docker-compose down && docker-compose up -d --build
+  ```
+
