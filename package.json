@@ -1,0 +1,46 @@
+{
+  "name": "astroreha",
+  "version": "1.1.5",
+  "description": "Astrology Library to get Birth Chart and Navamsa Chart. Compatibility retrieval using the same.",
+  "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=24.15.0",
+    "python": ">=3.14.4"
+  },
+  "overrides": {
+    "swisseph": "npm:swisseph-v2@^1.0.4"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rish-0-0/astroreha.git"
+  },
+  "keywords": [
+    "Swiss",
+    "Ephemeris",
+    "Astrology",
+    "Jyotish",
+    "Birth Chart",
+    "Navamsa Chart",
+    "Reha"
+  ],
+  "author": "Rishabh Anand",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/rish-0-0/astroreha/issues"
+  },
+  "homepage": "https://github.com/rish-0-0/astroreha#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "ephemeris": "^2.2.0",
+    "express": "^5.2.1",
+    "jyotish": "^1.0.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "swisseph": "npm:swisseph-v2@^1.0.4"
+  }
+}

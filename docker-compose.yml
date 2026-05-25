@@ -1,0 +1,9 @@
+services:
+  astroreha-api:
+    build: .
+    ports:
+      - "1300:1300"
+    environment:
+      - PORT=1300
+      - NODE_ENV=production
+    restart: always

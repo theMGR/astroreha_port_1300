@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+.env
+.git
+.gitignore
+.antigravityignore
+setup.bat
+start_server.bat
+stop_server.bat
+Dockerfile
+docker-compose.yml
+package-lock.json
