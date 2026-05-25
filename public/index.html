@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroReha - Premium Vedic Astrology & Compatibility Portal</title>
+    <!-- Google Fonts (Sunrise Signature Pack) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Ambient Glowing Backdrops (Sunrise Style) -->
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <div class="app-container">
+        <!-- Premium Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <i class="fa-solid fa-om logo-icon"></i>
+                <div class="brand-text">
+                    <h1>ASTROREHA</h1>
+                    <p class="tagline">Vedic Astrology & Compatibility Engine</p>
+                </div>
+            </div>
+            
+            <div class="header-controls">
+                <nav class="app-tabs">
+                    <button class="tab-btn active" data-tab="charts" data-i18n="tab_charts">
+                        <i class="fa-solid fa-chart-pie"></i> Chart Explorer
+                    </button>
+                    <button class="tab-btn" data-tab="compatibility" data-i18n="tab_compatibility">
+                        <i class="fa-solid fa-heart-pulse"></i> Compatibility Hub
+                    </button>
+                    <button class="tab-btn" data-tab="api-guide" data-i18n="tab_api">
+                        <i class="fa-solid fa-code"></i> API Explorer
+                    </button>
+                </nav>
+
+                <div class="language-selector">
+                    <i class="fa-solid fa-language"></i>
+                    <select id="lang-select">
+                        <option value="en" selected>English</option>
+                        <option value="ta">தமிழ் (Tamil)</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- SECTION 1: CHART EXPLORER -->
+            <section id="charts-tab" class="tab-content active">
+                <div class="grid-layout">
+                    <!-- Left: Control Input Card -->
+                    <div class="card control-card">
+                        <div class="card-header">
+                            <i class="fa-solid fa-compass"></i>
+                            <h2 data-i18n="title_cast_chart">Cast Birth Chart (Kundali)</h2>
+                        </div>
+                        <form id="chart-form">
+                            <div class="form-group">
+                                <label for="birth-date" data-i18n="label_dob"><i class="fa-regular fa-calendar"></i> Date of Birth</label>
+                                <input type="date" id="birth-date" required value="1989-06-10">
+                            </div>
+                            <div class="form-group">
+                                <label for="birth-time" data-i18n="label_tob"><i class="fa-regular fa-clock"></i> Time of Birth</label>
+                                <input type="time" id="birth-time" step="1" required value="03:03:00">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="birth-lat" data-i18n="label_lat"><i class="fa-solid fa-location-crosshairs"></i> Latitude</label>
+                                    <input type="number" id="birth-lat" step="0.000001" required value="11.664325" placeholder="e.g. 11.664325">
+                                </div>
+                                <div class="form-group col">
+                                    <label for="birth-lng" data-i18n="label_lng"><i class="fa-solid fa-map-pin"></i> Longitude</label>
+                                    <input type="number" id="birth-lng" step="0.000001" required value="78.146011" placeholder="e.g. 78.146011">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="birth-timezone" data-i18n="label_timezone"><i class="fa-solid fa-globe"></i> Timezone Offset (Hours)</label>
+                                <div class="select-wrapper">
+                                    <select id="birth-timezone">
+                                        <option value="5.5" selected>India (IST) +5:30</option>
+                                        <option value="0">UTC / GMT +0:00</option>
+                                        <option value="-5">USA East Coast (EST) -5:00</option>
+                                        <option value="-8">USA West Coast (PST) -8:00</option>
+                                        <option value="1">Central Europe (CET) +1:00</option>
+                                        <option value="8">Singapore/China (SGT) +8:00</option>
+                                        <option value="9">Japan (JST) +9:00</option>
+                                        <option value="10">Australia Eastern (AEST) +10:00</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-gold btn-block">
+                                <span data-i18n="btn_cast">Cast D1 & D9 Charts</span>
+                                <i class="fa-solid fa-star-and-crescent"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right: Dynamic Output Panel -->
+                    <div class="card result-card" id="chart-result-container">
+                        <div class="card-header" style="justify-content: space-between; display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <i class="fa-solid fa-star-and-crescent" style="color: var(--sun-gold);"></i>
+                                <h2 data-i18n="visualizer_title">Cosmic Map Visualizer</h2>
+                            </div>
+                            <div class="chart-style-selector">
+                                <button type="button" class="style-btn" id="style-btn-north" data-style="north" data-i18n="north_btn">North Indian (Diamond)</button>
+                                <button type="button" class="style-btn active" id="style-btn-south" data-style="south" data-i18n="south_btn">Tamil Nadu / South Indian (Grid)</button>
+                            </div>
+                        </div>
+                        
+                        <div class="placeholder-state" id="chart-placeholder" style="padding-top: 4rem; padding-bottom: 4rem;">
+                            <i class="fa-solid fa-bahai placeholder-icon spin"></i>
+                            <h3 data-i18n="placeholder_chart_title">Awaiting Astronomical Alignments</h3>
+                            <p data-i18n="placeholder_chart_desc">Enter birth details on the left and cast the charts to fetch planetary positions, Lagna calculations, and Navamsa details dynamically.</p>
+                        </div>
+                        
+                        <div class="chart-results-wrapper hidden" id="chart-results">
+                            <div class="charts-row">
+                                <!-- Birth Chart D1 -->
+                                <div class="chart-box">
+                                    <div class="chart-title">
+                                        <h3 data-i18n="chart_d1_title">Birth Chart (D1)</h3>
+                                        <span class="badge badge-gold">Whole Sign</span>
+                                    </div>
+                                    <div class="svg-chart-container" id="d1-svg-container">
+                                        <!-- SVG will be injected here -->
+                                    </div>
+                                </div>
+
+                                <!-- Navamsa Chart D9 -->
+                                <div class="chart-box">
+                                    <div class="chart-title">
+                                        <h3 data-i18n="chart_d9_title">Navamsa Chart (D9)</h3>
+                                        <span class="badge badge-purple">Lahiri Ayanamsha</span>
+                                    </div>
+                                    <div class="svg-chart-container" id="d9-svg-container">
+                                        <!-- SVG will be injected here -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Planetary Detail Grid Table -->
+                            <div class="planetary-table-container">
+                                <h3 data-i18n="table_title">Planetary Positions & Nakshatra Details</h3>
+                                <div class="table-scroll">
+                                    <table class="astro-table">
+                                        <thead>
+                                            <tr>
+                                                <th data-i18n="th_planet">Planet</th>
+                                                <th data-i18n="th_rashi">Rashi (Zodiac)</th>
+                                                <th data-i18n="th_nakshatra">Nakshatra</th>
+                                                <th data-i18n="th_longitude">Longitude</th>
+                                                <th data-i18n="th_motion">Motion</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="planetary-table-body">
+                                            <!-- Dynamically populated rows -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: COMPATIBILITY HUB -->
+            <section id="compatibility-tab" class="tab-content">
+                <div class="grid-layout compatibility-grid">
+                    <!-- Left: Control Forms for Both Partners -->
+                    <div class="control-wrapper">
+                        <form id="compatibility-form">
+                            <!-- Partner 1 -->
+                            <div class="card control-card p-card">
+                                <div class="card-header partner-1-header">
+                                    <i class="fa-solid fa-venus"></i>
+                                    <h2 data-i18n="title_p1">First Person</h2>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="label_dob"><i class="fa-regular fa-calendar"></i> Date of Birth</label>
+                                    <input type="date" id="p1-date" required value="1989-06-10">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="label_tob"><i class="fa-regular fa-clock"></i> Time of Birth</label>
+                                    <input type="time" id="p1-time" step="1" required value="03:03:00">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col">
+                                        <label data-i18n="label_lat"><i class="fa-solid fa-location-crosshairs"></i> Latitude</label>
+                                        <input type="number" id="p1-lat" step="0.000001" required value="11.664325">
+                                    </div>
+                                    <div class="form-group col">
+                                        <label data-i18n="label_lng"><i class="fa-solid fa-map-pin"></i> Longitude</label>
+                                        <input type="number" id="p1-lng" step="0.000001" required value="78.146011">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="label_timezone"><i class="fa-solid fa-globe"></i> Timezone</label>
+                                    <div class="select-wrapper">
+                                        <select id="p1-timezone">
+                                            <option value="5.5" selected>India (IST) +5:30</option>
+                                            <option value="0">UTC / GMT +0:00</option>
+                                            <option value="-5">USA East Coast (EST) -5:00</option>
+                                            <option value="-8">USA West Coast (PST) -8:00</option>
+                                            <option value="1">Central Europe (CET) +1:00</option>
+                                            <option value="8">Singapore/China (SGT) +8:00</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Partner 2 -->
+                            <div class="card control-card p-card mt-4">
+                                <div class="card-header partner-2-header">
+                                    <i class="fa-solid fa-mars"></i>
+                                    <h2 data-i18n="title_p2">Second Person</h2>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="label_dob"><i class="fa-regular fa-calendar"></i> Date of Birth</label>
+                                    <input type="date" id="p2-date" required value="1999-06-15">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="label_tob"><i class="fa-regular fa-clock"></i> Time of Birth</label>
+                                    <input type="time" id="p2-time" step="1" required value="14:30:00">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col">
+                                        <label data-i18n="label_lat"><i class="fa-solid fa-location-crosshairs"></i> Latitude</label>
+                                        <input type="number" id="p2-lat" step="0.000001" required value="19.0760">
+                                    </div>
+                                    <div class="form-group col">
+                                        <label data-i18n="label_lng"><i class="fa-solid fa-map-pin"></i> Longitude</label>
+                                        <input type="number" id="p2-lng" step="0.000001" required value="72.8777">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="label_timezone"><i class="fa-solid fa-globe"></i> Timezone</label>
+                                    <div class="select-wrapper">
+                                        <select id="p2-timezone">
+                                            <option value="5.5" selected>India (IST) +5:30</option>
+                                            <option value="0">UTC / GMT +0:00</option>
+                                            <option value="-5">USA East Coast (EST) -5:00</option>
+                                            <option value="-8">USA West Coast (PST) -8:00</option>
+                                            <option value="1">Central Europe (CET) +1:00</option>
+                                            <option value="8">Singapore/China (SGT) +8:00</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Common Matching Threshold -->
+                            <div class="card threshold-card mt-4">
+                                <div class="form-group mb-0">
+                                    <label for="threshold-slider" class="slider-label">
+                                        <span data-i18n="label_threshold">Match Threshold Score</span>
+                                        <strong id="threshold-val">12 / 30 (40%)</strong>
+                                    </label>
+                                    <input type="range" id="threshold-slider" min="0" max="30" step="1" value="12">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-rose btn-block mt-4">
+                                <span data-i18n="btn_match">Analyze Synastry Compatibility</span>
+                                <i class="fa-solid fa-heart"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Right: Compatibility Score and Analysis -->
+                    <div class="card result-card" id="compatibility-result-container">
+                        <div class="placeholder-state" id="compat-placeholder">
+                            <i class="fa-solid fa-heart-circle-bolt placeholder-icon beating"></i>
+                            <h3 data-i18n="placeholder_compat_title">Ready for Compatibility Synastry</h3>
+                            <p data-i18n="placeholder_compat_desc">Submit details for both individuals to calculate their mutual compatibility score, examine Rising, Sun, Moon, and Venus relationships, check Manglik conditions, and view the precise ruleset analysis.</p>
+                        </div>
+
+                        <div class="compat-results-wrapper hidden" id="compat-results">
+                            <!-- Circular Gauge Widget -->
+                            <div class="gauge-section">
+                                <div class="score-gauge-container">
+                                    <svg class="score-ring" viewBox="0 0 160 160">
+                                        <circle class="score-ring-bg" cx="80" cy="80" r="70"></circle>
+                                        <circle class="score-ring-fill" cx="80" cy="80" r="70" id="score-ring-fill"></circle>
+                                    </svg>
+                                    <div class="score-inner-text">
+                                        <h2 id="compat-score-text">0/30</h2>
+                                        <p data-i18n="points_label">Total Points</p>
+                                    </div>
+                                </div>
+                                <div class="outcome-badge" id="compat-verdict-badge">
+                                    <i class="fa-solid fa-award"></i>
+                                    <span id="compat-verdict-text">Analyzing Union</span>
+                                </div>
+                            </div>
+
+                            <!-- Detailed Rules Accordion -->
+                            <div class="detailed-rules-container">
+                                <h3 data-i18n="criteria_title">Astrological Criteria Breakdown</h3>
+                                <p class="desc" data-i18n="criteria_desc">A total score is calculated across 18 rules mapping planetary relationships, houses, and nakshatras. A threshold of 12 points or above is typically required for standard compatibility.</p>
+                                
+                                <div class="rules-list animate-list" id="compat-rules-list">
+                                    <!-- Rules will be dynamically generated as gorgeous widgets -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: API EXPLORER -->
+            <section id="api-guide-tab" class="tab-content">
+                <div class="card docs-card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-book-bookmark text-gold"></i>
+                        <h2>AstroReha REST API Quick Reference</h2>
+                    </div>
+                    <div class="docs-intro">
+                        <p>AstroReha is designed to be high-performance, modular, and extremely accurate, leveraging Swiss Ephemeris under-the-hood. The following endpoints are exposed for third-party integrations and development:</p>
+                    </div>
+
+                    <div class="endpoint-cards-grid">
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="path">/api/birth-chart</span>
+                            <p class="desc">Generates the full Birth Chart planetary coordinates and Lagna information.</p>
+                        </div>
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="path">/api/getBirthNavamsaChart</span>
+                            <p class="desc">Generates both D1 Birth and D9 Navamsa chart positions in a single request.</p>
+                        </div>
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="path">/api/navamsa-chart</span>
+                            <p class="desc">Recalculates Navamsa (D9) positions given raw birth chart positions.</p>
+                        </div>
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="path">/api/compatibility</span>
+                            <p class="desc">Runs the standard 30-point synastry evaluation between two distinct charts.</p>
+                        </div>
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="path">/api/planets</span>
+                            <p class="desc">Retrieve raw astronomical planetary positions using Swiss Ephemeris.</p>
+                        </div>
+                    </div>
+
+                    <div class="swagger-callout">
+                        <div class="info">
+                            <h4>Interactive Swagger Documentation Available</h4>
+                            <p>Explore schemas, request examples, and execute real-time queries directly from the Swagger UI dashboard.</p>
+                        </div>
+                        <a href="/api-docs" target="_blank" class="btn btn-outline-gold">
+                            <i class="fa-solid fa-square-arrow-up-right"></i> Open Swagger Docs
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Terms, Conditions & Credits Footer (MGR Sunrise Style) -->
+        <footer class="app-footer">
+            <div class="footer-grid">
+                <!-- Legal Disclaimer Column -->
+                <div class="footer-col disclaimer-col">
+                    <h4>Terms &amp; Conditions</h4>
+                    <p class="disclaimer-text">
+                        By using the AstroReha web application, you acknowledge and agree that all calculations, reports, and astrological interpretations are generated based on traditional Vedic calculations using the Whole Sign house system and Lahiri Ayanamsha. 
+                    </p>
+                    <p class="disclaimer-text">
+                        Astrological predictions and compatibility matching score evaluations are intended solely for educational, research, and informational purposes. No guarantees, explicit or implied, are made regarding the accuracy of information, predictions, or the suitability of matching profiles. Use of this service does not constitute professional psychological, medical, relationship, financial, or legal advice.
+                    </p>
+                    <p class="disclaimer-text">
+                        Core architectural formulas, typographic systems, interface icons, and high-precision astronomical ephemerides datasets integrated within this portal have been adapted and constructed using documentation, assets, and references from Google, GitHub, the Swiss Ephemeris library, and relevant open-source libraries. Full citations are listed in the adjacent Credits stack.
+                    </p>
+                </div>
+
+                <!-- Credits Column -->
+                <div class="footer-col credits-col">
+                    <h4>Credits &amp; Technology Stack</h4>
+                    <ul class="credits-list">
+                        <li>
+                            <i class="fa-brands fa-github text-github"></i>
+                            <div class="credit-detail">
+                                <a href="https://github.com/rish-0-0/astroreha" target="_blank" class="credit-link">GitHub Core Engine</a>
+                                <p>Astrology engine codebase and Node.js module repository</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-code-fork" style="color: var(--sun-gold);"></i>
+                            <div class="credit-detail">
+                                <a href="https://github.com/theMGR/astroreha_port_1300/" target="_blank" class="credit-link">Port Repository (theMGR)</a>
+                                <p>Premium responsive Vedic UI, Tamil Nadu style grids, and Docker deployment</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-brands fa-google text-google"></i>
+                            <div class="credit-detail">
+                                <span class="credit-label">Google Fonts &amp; Icons</span>
+                                <p>Syne, DM Sans typography and responsive iconography infrastructure</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-atom text-ephemeris"></i>
+                            <div class="credit-detail">
+                                <a href="https://www.astro.com/swisseph/" target="_blank" class="credit-link">Swiss Ephemeris (Dieter Koch)</a>
+                                <p>State of the art high-precision astronomical computing libraries</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-server text-node"></i>
+                            <div class="credit-detail">
+                                <span class="credit-label">Node.js, Express, &amp; Swagger</span>
+                                <p>Robust server platform supporting clean RESTful API interactions</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-box-open" style="color: var(--sun-rose);"></i>
+                            <div class="credit-detail">
+                                <span class="credit-label">Jyotish &amp; Ephemeris Libraries</span>
+                                <p>Astrological NPM package calculation frameworks and ephemerides data</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 AstroReha Portal. Built with care using the GPL-2.0 License. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="https://github.com/theMGR/astroreha_port_1300/" target="_blank"><i class="fa-brands fa-github"></i> Port Repository</a>
+                    <a href="https://github.com/rish-0-0/astroreha" target="_blank"><i class="fa-solid fa-code-branch"></i> Core Engine</a>
+                    <a href="/api-docs" target="_blank"><i class="fa-solid fa-book"></i> Interactive OpenAPI Spec</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Client-side Javascript logic -->
+    <script src="app.js"></script>
+</body>
+</html>

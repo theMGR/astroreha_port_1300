@@ -24,10 +24,10 @@ const astroreha = require("astroreha");
  * @param {Number} timezone timezone in hours
  */
 const birthChart = astroreha.positioner.getBirthChart(
-  "1999-05-22",
-  "08:00:00",
-  28.6139,
-  77.209,
+  "1989-06-10",
+  "03:03:00",
+  11.664325,
+  78.146011,
   5.5,
 );
 // Get Rashi
