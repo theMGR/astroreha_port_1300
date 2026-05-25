@@ -7,5 +7,7 @@ echo Installing dependencies...
 call npm install
 
 echo Starting AstroReha API on port 1300...
+echo Access the portal at http://localhost:1300
+echo Interactive Swagger API Docs: http://localhost:1300/api-docs
 npm start
 pause
