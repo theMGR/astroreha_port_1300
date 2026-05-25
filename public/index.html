@@ -23,7 +23,7 @@
         <!-- Premium Header -->
         <header class="app-header">
             <div class="logo-area">
-                <i class="fa-solid fa-om logo-icon"></i>
+                <span class="logo-om">ௐ</span>
                 <div class="brand-text">
                     <h1>ASTROREHA</h1>
                     <p class="tagline">Vedic Astrology & Compatibility Engine</p>
@@ -66,6 +66,10 @@
                             <h2 data-i18n="title_cast_chart">Cast Birth Chart (Kundali)</h2>
                         </div>
                         <form id="chart-form">
+                            <div class="form-group">
+                                <label for="user-name" data-i18n="label_name"><i class="fa-regular fa-user"></i> Full Name</label>
+                                <input type="text" id="user-name" required value="Manivannan G" placeholder="e.g. Manivannan G">
+                            </div>
                             <div class="form-group">
                                 <label for="birth-date" data-i18n="label_dob"><i class="fa-regular fa-calendar"></i> Date of Birth</label>
                                 <input type="date" id="birth-date" required value="1989-06-10">
@@ -126,11 +130,15 @@
                         </div>
                         
                         <div class="chart-results-wrapper hidden" id="chart-results">
+                            <!-- Dynamic single user name banner -->
+                            <div class="user-name-header" id="chart-username-text" style="text-align: center; font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--accent);">
+                                Manivannan G
+                            </div>
                             <div class="charts-row">
                                 <!-- Birth Chart D1 -->
                                 <div class="chart-box">
                                     <div class="chart-title">
-                                        <h3 data-i18n="chart_d1_title">Birth Chart (D1)</h3>
+                                        <h3 id="d1-chart-title-text" data-i18n="chart_d1_title">Birth Chart (D1)</h3>
                                         <span class="badge badge-gold">Whole Sign</span>
                                     </div>
                                     <div class="svg-chart-container" id="d1-svg-container">
@@ -141,7 +149,7 @@
                                 <!-- Navamsa Chart D9 -->
                                 <div class="chart-box">
                                     <div class="chart-title">
-                                        <h3 data-i18n="chart_d9_title">Navamsa Chart (D9)</h3>
+                                        <h3 id="d9-chart-title-text" data-i18n="chart_d9_title">Navamsa Chart (D9)</h3>
                                         <span class="badge badge-purple">Lahiri Ayanamsha</span>
                                     </div>
                                     <div class="svg-chart-container" id="d9-svg-container">
@@ -187,10 +195,14 @@
                                     <i class="fa-solid fa-venus"></i>
                                     <h2 data-i18n="title_p1">First Person</h2>
                                 </div>
-                                <div class="form-group">
-                                    <label data-i18n="label_dob"><i class="fa-regular fa-calendar"></i> Date of Birth</label>
-                                    <input type="date" id="p1-date" required value="1989-06-10">
-                                </div>
+                                 <div class="form-group">
+                                     <label data-i18n="label_name"><i class="fa-regular fa-user"></i> Full Name</label>
+                                     <input type="text" id="p1-name" required value="Priya" placeholder="e.g. Priya">
+                                 </div>
+                                 <div class="form-group">
+                                     <label data-i18n="label_dob"><i class="fa-regular fa-calendar"></i> Date of Birth</label>
+                                     <input type="date" id="p1-date" required value="1989-06-10">
+                                 </div>
                                 <div class="form-group">
                                     <label data-i18n="label_tob"><i class="fa-regular fa-clock"></i> Time of Birth</label>
                                     <input type="time" id="p1-time" step="1" required value="03:03:00">
@@ -226,10 +238,14 @@
                                     <i class="fa-solid fa-mars"></i>
                                     <h2 data-i18n="title_p2">Second Person</h2>
                                 </div>
-                                <div class="form-group">
-                                    <label data-i18n="label_dob"><i class="fa-regular fa-calendar"></i> Date of Birth</label>
-                                    <input type="date" id="p2-date" required value="1999-06-15">
-                                </div>
+                                 <div class="form-group">
+                                     <label data-i18n="label_name"><i class="fa-regular fa-user"></i> Full Name</label>
+                                     <input type="text" id="p2-name" required value="Arun" placeholder="e.g. Arun">
+                                 </div>
+                                 <div class="form-group">
+                                     <label data-i18n="label_dob"><i class="fa-regular fa-calendar"></i> Date of Birth</label>
+                                     <input type="date" id="p2-date" required value="1989-06-10">
+                                 </div>
                                 <div class="form-group">
                                     <label data-i18n="label_tob"><i class="fa-regular fa-clock"></i> Time of Birth</label>
                                     <input type="time" id="p2-time" step="1" required value="14:30:00">
@@ -237,11 +253,11 @@
                                 <div class="form-row">
                                     <div class="form-group col">
                                         <label data-i18n="label_lat"><i class="fa-solid fa-location-crosshairs"></i> Latitude</label>
-                                        <input type="number" id="p2-lat" step="0.000001" required value="19.0760">
+                                        <input type="number" id="p2-lat" step="0.000001" required value="11.664325">
                                     </div>
                                     <div class="form-group col">
                                         <label data-i18n="label_lng"><i class="fa-solid fa-map-pin"></i> Longitude</label>
-                                        <input type="number" id="p2-lng" step="0.000001" required value="72.8777">
+                                        <input type="number" id="p2-lng" step="0.000001" required value="78.146011">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -286,6 +302,10 @@
                         </div>
 
                         <div class="compat-results-wrapper hidden" id="compat-results">
+                            <!-- Dynamic couple names banner -->
+                            <div class="couple-name-header" id="couple-name-text" style="text-align: center; font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--accent);">
+                                Priya & Arun
+                            </div>
                             <!-- Circular Gauge Widget -->
                             <div class="gauge-section">
                                 <div class="score-gauge-container">
@@ -439,7 +459,7 @@
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 AstroReha Portal. Built with care using the GPL-2.0 License. All rights reserved.</p>
+                <p>&copy; 2026 AstroReha Portal · Developed with care by <a href="https://mahendhraa.com/" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 600;">Manivannan G (mahendhraa.com)</a>. All rights reserved.</p>
                 <div class="footer-links">
                     <a href="https://github.com/theMGR/astroreha_port_1300/" target="_blank"><i class="fa-brands fa-github"></i> Port Repository</a>
                     <a href="https://github.com/rish-0-0/astroreha" target="_blank"><i class="fa-solid fa-code-branch"></i> Core Engine</a>

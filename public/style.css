@@ -175,8 +175,11 @@ body {
     gap: 0.85rem;
 }
 
-.logo-icon {
-    font-size: 2rem;
+.logo-icon,
+.logo-om {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1;
     background: linear-gradient(120deg, var(--sun-rose), var(--sun-gold));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -196,18 +199,19 @@ body {
 }
 
 .brand-text .tagline {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: var(--text2);
     font-weight: 600;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .header-controls {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .app-tabs {
@@ -585,18 +589,20 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 .chart-title h3 {
     font-family: var(--font-heading);
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: var(--text);
+    white-space: nowrap;
 }
 
 .badge {
-    padding: 0.3rem 0.8rem;
-    font-size: 0.75rem;
+    padding: 0.25rem 0.60rem;
+    font-size: 0.68rem;
     font-weight: 700;
     border-radius: 999px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .badge-gold {
@@ -1215,6 +1221,9 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 /* Mobile Viewport (max-width: 768px) */
 @media (max-width: 768px) {
+    .brand-text .tagline {
+        white-space: normal;
+    }
     .app-header {
         flex-direction: column;
         gap: 1.5rem;

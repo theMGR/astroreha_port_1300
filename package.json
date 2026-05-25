@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rish-0-0/astroreha.git"
+    "url": "git+https://github.com/theMGR/astroreha_port_1300.git"
   },
   "keywords": [
     "Swiss",
@@ -31,9 +31,9 @@
   "author": "Rishabh Anand",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/rish-0-0/astroreha/issues"
+    "url": "https://github.com/theMGR/astroreha_port_1300/issues"
   },
-  "homepage": "https://github.com/rish-0-0/astroreha#readme",
+  "homepage": "https://github.com/theMGR/astroreha_port_1300#readme",
   "dependencies": {
     "cors": "^2.8.6",
     "ephemeris": "^2.2.0",

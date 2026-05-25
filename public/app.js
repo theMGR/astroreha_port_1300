@@ -87,6 +87,7 @@ const TRANSLATIONS = {
         
         // D1/D9 form
         title_cast_chart: 'Cast Birth Chart (Kundali)',
+        label_name: '<i class="fa-regular fa-user"></i> Full Name',
         label_dob: '<i class="fa-regular fa-calendar"></i> Date of Birth',
         label_tob: '<i class="fa-regular fa-clock"></i> Time of Birth',
         label_lat: '<i class="fa-solid fa-location-crosshairs"></i> Latitude',
@@ -128,6 +129,7 @@ const TRANSLATIONS = {
         
         // D1/D9 form
         title_cast_chart: 'ஜாதகம் கணித்தல் (குண்டலி)',
+        label_name: '<i class="fa-regular fa-user"></i> முழு பெயர்',
         label_dob: '<i class="fa-regular fa-calendar"></i> பிறந்த தேதி',
         label_tob: '<i class="fa-regular fa-clock"></i> பிறந்த நேரம்',
         label_lat: '<i class="fa-solid fa-location-crosshairs"></i> அட்சரேகை (Latitude)',
@@ -389,6 +391,24 @@ function updateLanguage(lang) {
 
 function drawActiveCharts() {
     if (!currentChartData) return;
+
+    // Dynamically update the unified chart banner with the entered name
+    const userName = document.getElementById("user-name")?.value.trim() || "User";
+    const usernameHeader = document.getElementById("chart-username-text");
+    if (usernameHeader) {
+        usernameHeader.innerHTML = `${activeLanguage === "ta" ? "ஜாதகக்காரர்" : "Horoscope of"}: <span style="color: var(--accent); font-weight: bold;">${userName}</span>`;
+    }
+
+    // Restore original clean headings for both charts to avoid double redundancy
+    const d1TitleText = document.getElementById("d1-chart-title-text");
+    const d9TitleText = document.getElementById("d9-chart-title-text");
+    if (d1TitleText) {
+        d1TitleText.innerHTML = activeLanguage === "ta" ? "இராசி கட்டம் (D1)" : "Birth Chart (D1)";
+    }
+    if (d9TitleText) {
+        d9TitleText.innerHTML = activeLanguage === "ta" ? "நவாம்ச கட்டம் (D9)" : "Navamsa Chart (D9)";
+    }
+
     if (activeChartStyle === "north") {
         renderNorthIndianSVG(currentChartData.birthChart, "d1-svg-container", false);
         renderNorthIndianSVG(currentChartData.navamsaChart, "d9-svg-container", true);
@@ -831,6 +851,16 @@ function renderCompatibilityResults(data, rawThreshold) {
 
     rulesList.innerHTML = ""; // Reset accordion list
 
+    // Extract both partners' entered names
+    const p1Name = document.getElementById("p1-name")?.value.trim() || "Person 1";
+    const p2Name = document.getElementById("p2-name")?.value.trim() || "Person 2";
+
+    // Dynamically update couple name header banner
+    const coupleNameHeader = document.getElementById("couple-name-text");
+    if (coupleNameHeader) {
+        coupleNameHeader.innerHTML = `<span style="color: var(--accent); font-weight: bold;">${p1Name}</span> &amp; <span style="color: var(--accent); font-weight: bold;">${p2Name}</span>`;
+    }
+
     // Case 1: Hard D9 Block (API literally returns false)
     if (data === false) {
         // Animate dial to 0
@@ -839,7 +869,7 @@ function renderCompatibilityResults(data, rawThreshold) {
 
         // Style badge for warning
         verdictBadge.className = "outcome-badge incompatible";
-        verdictText.innerText = activeLanguage === "ta" ? "தடுக்கப்பட்டது (நவாம்சம்)" : "Blocked (D9 Requirement)";
+        verdictText.innerText = activeLanguage === "ta" ? `${p1Name} & ${p2Name}: நவாம்சம் தடுக்கப்பட்டது` : `${p1Name} & ${p2Name}: Blocked (D9 Requirement)`;
 
         // Append dummy explanation card
         const card = document.createElement("div");
@@ -871,13 +901,13 @@ function renderCompatibilityResults(data, rawThreshold) {
     if (isCompatible) {
         verdictBadge.className = "outcome-badge compatible";
         if (score >= 22) {
-            verdictText.innerText = activeLanguage === "ta" ? "மிகவும் உன்னதமான பொருத்தம்" : "Highly Auspicious Match";
+            verdictText.innerText = activeLanguage === "ta" ? `${p1Name} & ${p2Name}: மிகவும் உன்னதமான பொருத்தம்` : `${p1Name} & ${p2Name}: Highly Auspicious Match`;
         } else {
-            verdictText.innerText = activeLanguage === "ta" ? "பொருத்தம் உள்ளது" : "Compatible Union";
+            verdictText.innerText = activeLanguage === "ta" ? `${p1Name} & ${p2Name}: பொருத்தம் உள்ளது` : `${p1Name} & ${p2Name}: Compatible Union`;
         }
     } else {
         verdictBadge.className = "outcome-badge incompatible";
-        verdictText.innerText = activeLanguage === "ta" ? "பொருத்தம் போதாது" : "Challenging Compatibility";
+        verdictText.innerText = activeLanguage === "ta" ? `${p1Name} & ${p2Name}: பொருத்தம் போதாது` : `${p1Name} & ${p2Name}: Challenging Compatibility`;
     }
 
     // Compute granular rule-by-rule points by examining the cumulative after_score differences
