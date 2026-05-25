@@ -23,26 +23,63 @@ const astroreha = require("astroreha");
  * @param {Number} lng longitude
  * @param {Number} timezone timezone in hours
  */
-const birthChart = astroreha.positioner.getBirthChart("1999-05-22", "08:00:00", 28.6139, 77.209, 5.5);
+const birthChart = astroreha.positioner.getBirthChart(
+  "1999-05-22",
+  "08:00:00",
+  28.6139,
+  77.209,
+  5.5,
+);
 // Get Rashi
-birthChart.meta.Mo.rashi // Rashi is Moon Sign in Indian Astrology
+birthChart.meta.Mo.rashi; // Rashi is Moon Sign in Indian Astrology
 // Get Sun Sign
-birthChart.meta.Su.rashi
+birthChart.meta.Su.rashi;
 // Get Grahas in a certain Rashi
-birthChart.aries.signs // returns an array of grahas
+birthChart.aries.signs; // returns an array of grahas
 
 // Get compatibility (returns Boolean)
-astroreha.compatibility.areCompatible({dateString, timeString, lat, lng, timezone}, {dateString, timeString, lat, lng, timezone});
+astroreha.compatibility.areCompatible(
+  { dateString, timeString, lat, lng, timezone },
+  { dateString, timeString, lat, lng, timezone },
+);
 ```
+
 ## Updates for 1.1.5
+
 1. Changed Getting Navamsa Chart Logic to be more accurate considering floating point inaccuracies
 2. More constants available
 
-
 ## Breaking Changes
+
 1. Not a default Export anymore
 2. Gives Positioner and Compatibility Feature
 
-
-
 ### Verified with [Prokerela.com](https://www.prokerala.com)
+
+##astroreha_port_1300
+
+1. Start Commands
+   Start in the background (Detached mode - Recommended):
+
+docker-compose up -d
+Start and force a rebuild (Use this if you changed package.json or source code):
+
+docker-compose up -d --build
+Start in the foreground (To see live logs in your terminal):
+
+docker-compose up 2. Stop Commands
+Stop and remove containers (Recommended - cleans up resources):
+
+docker-compose down
+Stop containers without removing them (Keeps container states):
+
+docker-compose stop 3. Restart Commands
+Quick Restart (Restarts the container without rebuilding):
+
+docker-compose restart
+Rebuild and Restart (Ensures everything is fully fresh):
+
+docker-compose down && docker-compose up -d --build
+
+chmod +x docker_start.sh
+./docker_start.sh
