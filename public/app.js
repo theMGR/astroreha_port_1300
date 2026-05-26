@@ -304,6 +304,14 @@ document.addEventListener("DOMContentLoaded", () => {
     setupCompatibilityForm();
     setupChartStyleSelector();
     setupLanguageSelector();
+
+    // Listen for theme changes to dynamically re-render charts
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    try {
+        mediaQuery.addEventListener('change', drawActiveCharts);
+    } catch (e) {
+        mediaQuery.addListener(drawActiveCharts);
+    }
 });
 
 function setupTabs() {
@@ -599,20 +607,33 @@ function renderSouthIndianSVG(chart, containerId, isD9 = false) {
             `;
         }
 
-        // Print sign abbreviation / Tamil name (top-left of box)
+        // Check if browser/system is in dark mode
+        const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         const displaySign = (activeLanguage === "ta") ? TAMIL_RASHIS[sign] : sign;
-        svgHtml += `
-        <text x="${coords.x - 28}" y="${coords.y - 24}" class="house-num-text" style="font-size: 8px; font-weight: bold; fill: var(--text-muted);" text-anchor="start" dominant-baseline="central">
-            ${displaySign}
-        </text>
-        `;
 
-        // Print house number from Lagna (top-right of box)
-        svgHtml += `
-        <text x="${coords.x + 28}" y="${coords.y - 24}" class="house-num-text" style="font-size: 8px; fill: rgba(255,255,255,0.25);" text-anchor="end" dominant-baseline="central">
-            ${activeLanguage === "ta" ? "" : "H"}${houseNum}${activeLanguage === "ta" ? "-ஆம் வீடு" : ""}
-        </text>
-        `;
+        if (isDarkMode) {
+            // Dark Mode: 1-ஆம் வீடு shown, rasi in each stacked with veedu text
+            const veeduText = activeLanguage === "ta" ? `${houseNum}-ஆம் வீடு` : `H${houseNum}`;
+            svgHtml += `
+            <text x="${coords.x - 28}" y="${coords.y - 24}" class="house-num-text" style="font-size: 8px; fill: var(--text-muted);" text-anchor="start" dominant-baseline="central">
+                ${veeduText}
+            </text>
+            <text x="${coords.x - 28}" y="${coords.y - 14}" class="house-num-text" style="font-size: 8px; font-weight: bold; fill: var(--text2);" text-anchor="start" dominant-baseline="central">
+                ${displaySign}
+            </text>
+            `;
+        } else {
+            // Light Mode: veedu text at top, rasi text at bottom
+            const veeduText = activeLanguage === "ta" ? `${houseNum}-ஆம் வீடு` : `H${houseNum}`;
+            svgHtml += `
+            <text x="${coords.x - 28}" y="${coords.y - 24}" class="house-num-text" style="font-size: 8px; fill: var(--text-muted);" text-anchor="start" dominant-baseline="central">
+                ${veeduText}
+            </text>
+            <text x="${coords.x - 28}" y="${coords.y + 24}" class="house-num-text" style="font-size: 8px; font-weight: bold; fill: var(--text2);" text-anchor="start" dominant-baseline="central">
+                ${displaySign}
+            </text>
+            `;
+        }
 
         // Print planets in box (center of box)
         const planetList = signsList.map(s => {

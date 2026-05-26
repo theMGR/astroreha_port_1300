@@ -11,6 +11,7 @@
     --surface: #FFFFFF;
     --text: #1A1109;
     --text2: #6B5A46;
+    --text-muted: rgba(107, 90, 70, 0.7);
     --border: rgba(245, 166, 35, 0.18);
     --accent: #E8560D;
     --tag-bg: rgba(245, 166, 35, 0.13);
@@ -29,6 +30,7 @@
         --surface: #231908;
         --text: #FCEEDD;
         --text2: #BEA882;
+        --text-muted: rgba(190, 168, 130, 0.7);
         --border: rgba(245, 166, 35, 0.14);
         --accent: #F5A623;
         --tag-bg: rgba(245, 166, 35, 0.10);
