@@ -77,15 +77,26 @@ jobs:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
 
     steps:
-      - name: Deploy commands over SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT || 22 }}
-          script: |
-            cd ~/astroreha_port_1300 || cd /home/${{ secrets.SSH_USER }}/astroreha_port_1300 || cd /root/astroreha_port_1300
-            git pull origin main
-            chmod +x docker_start.sh
-            ./docker_start.sh
+      - name: Install Cloudflared
+        run: |
+          curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+          sudo dpkg -i cloudflared.deb
+
+      - name: Setup SSH Directory & Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Configure SSH for Cloudflare Tunnel
+        run: |
+          cat <<EOF > ~/.ssh/config
+          Host ssh.mahendhraa.com
+            ProxyCommand cloudflared access ssh --hostname %h
+            StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+          EOF
+
+      - name: Run Deploy Command over Cloudflare Tunnel
+        run: |
+          ssh -i ~/.ssh/id_rsa manivannang@ssh.mahendhraa.com "cd ~/astroreha_port_1300 || cd /home/manivannang/astroreha_port_1300 || cd /root/astroreha_port_1300 && git pull origin main && chmod +x docker_start.sh && ./docker_start.sh"
