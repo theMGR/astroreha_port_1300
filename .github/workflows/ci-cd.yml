@@ -113,4 +113,4 @@ jobs:
 
       - name: Run Deploy Command over Cloudflare Tunnel
         run: |
-          ssh -i ~/.ssh/id_rsa manivannang@ssh.mahendhraa.com "cd ~/astroreha_port_1300 || cd /home/manivannang/astroreha_port_1300 || cd /root/astroreha_port_1300 && git pull origin main && chmod +x docker_start.sh && ./docker_start.sh"
+          ssh -i ~/.ssh/id_rsa manivannang@ssh.mahendhraa.com "cd ~/astroreha_port_1300 || cd /home/manivannang/astroreha_port_1300 || cd /home/manivannang/projects/astroreha_port_1300 || cd /root/astroreha_port_1300 && git pull origin main && chmod +x docker_start.sh && ./docker_start.sh"
