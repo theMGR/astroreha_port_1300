@@ -85,10 +85,21 @@ jobs:
       - name: Setup SSH Directory & Key
         run: |
           mkdir -p ~/.ssh
-          cat << 'EOF' | tr -d '\r' > ~/.ssh/id_rsa
+          cat << '_SSH_KEY_EOF_' | tr -d '\r' > ~/.ssh/id_rsa
           ${{ secrets.SSH_PRIVATE_KEY }}
-          EOF
+          _SSH_KEY_EOF_
           chmod 600 ~/.ssh/id_rsa
+          
+          # Diagnostic info (Safe - does not expose secret)
+          echo "=== SSH Key Diagnostics ==="
+          echo "File size: $(wc -c < ~/.ssh/id_rsa) bytes"
+          echo "Line count: $(wc -l < ~/.ssh/id_rsa)"
+          echo -n "Header check: "
+          head -n 1 ~/.ssh/id_rsa | cut -c 1-20
+          echo -n "Footer check: "
+          tail -n 1 ~/.ssh/id_rsa | cut -c 1-20
+          echo "==========================="
+          
           ssh-keygen -l -f ~/.ssh/id_rsa
 
       - name: Configure SSH for Cloudflare Tunnel
