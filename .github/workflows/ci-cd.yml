@@ -92,8 +92,8 @@ jobs:
           
           # Diagnostic info (Safe - does not expose secret)
           echo "=== SSH Key Diagnostics ==="
-          echo "File size: $(wc -c < ~/.ssh/id_rsa) bytes"
-          echo "Line count: $(wc -l < ~/.ssh/id_rsa)"
+          echo "File size: \$(wc -c < ~/.ssh/id_rsa) bytes"
+          echo "Line count: \$(wc -l < ~/.ssh/id_rsa)"
           echo -n "Header check: "
           head -n 1 ~/.ssh/id_rsa | cut -c 1-20
           echo -n "Footer check: "
