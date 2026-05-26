@@ -116,3 +116,56 @@ chmod +x setup.sh docker_start.sh docker_stop.sh start_server.sh stop_server.sh
   docker-compose down && docker-compose up -d --build
   ```
 
+---
+
+## CI/CD Deployment Pipeline
+
+This repository includes a fully automated **GitHub Actions CI/CD Pipeline** (`.github/workflows/ci-cd.yml`) to verify, containerize, and deploy the AstroReha API service.
+
+### Pipeline Workflows & Triggers
+The pipeline is triggered automatically on:
+* **Pushes** to: `main`, `master`, `dev`, and `develop`
+* **Pull Requests** targeting: `main` and `master`
+
+### Jobs Structure
+
+```mermaid
+graph TD
+    A[Trigger: Push / PR] --> B[Run Test Suite]
+    B --> C[Build & Publish Docker Image]
+    C --> D[Deploy to Ubuntu Server]
+    style B fill:#4CAF50,stroke:#388E3C,stroke-width:2px,color:#fff
+    style C fill:#2196F3,stroke:#1976D2,stroke-width:2px,color:#fff
+    style D fill:#9C27B0,stroke:#7B1FA2,stroke-width:2px,color:#fff
+```
+
+#### 1. Run Test Suite
+* **Environment:** `ubuntu-latest` running Node.js v24.
+* **Tasks:** Installs dependencies and executes smoke verification tests (`npm test`).
+
+#### 2. Build & Publish Docker Image (GHCR)
+* **Environment:** `ubuntu-latest` with QEMU and Docker Buildx.
+* **Tasks:**
+  * Builds a production-ready multi-platform Docker container.
+  * On pushes to release branches (`main`/`master`), logs into **GitHub Container Registry (GHCR)** and publishes the image:
+    * `ghcr.io/themgr/astroreha_port_1300:latest`
+    * `ghcr.io/themgr/astroreha_port_1300:<commit-sha>`
+
+#### 3. Continuous Deployment (CD)
+* **Environment:** `ubuntu-latest`
+* **Condition:** Successful builds on pushes to `main` or `master`.
+* **Tasks:**
+  * Installs Cloudflare Tunnel agent (`cloudflared`).
+  * Establishes a secure SSH connection to the remote Ubuntu server (`ssh.mahendhraa.com`) routed securely via Cloudflare Tunnel.
+  * Injects SSH credentials using GitHub Secret `DELL_E5420_CICD_KEY`.
+  * Logs into the server, navigates to the project directory `/home/manivannang/projects/astroreha_port_1300`, pulls the latest code, and triggers a clean container rebuild via `./docker_start.sh`.
+
+### Required GitHub Repository Secrets
+
+To ensure the CD deployment functions properly, the following secrets must be configured in your GitHub Repository under **Settings** ➔ **Secrets and variables** ➔ **Actions**:
+
+| Secret Name | Description |
+| :--- | :--- |
+| `DELL_E5420_CICD_KEY` | The private SSH key authorized to connect to your Ubuntu server. |
+
+
